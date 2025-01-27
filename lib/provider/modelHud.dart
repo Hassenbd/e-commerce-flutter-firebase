@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Modelhud extends ChangeNotifier {
+class ModelHud extends ChangeNotifier {
   bool isLoading = false;
 
   changeisLoading(value) {

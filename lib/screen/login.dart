@@ -1,6 +1,8 @@
 import 'package:e_commerce/constants.dart';
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHud.dart';
+import 'package:e_commerce/screen/admin/admin.dart';
+import 'package:e_commerce/screen/home.dart';
 import 'package:e_commerce/screen/signup_screen.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/widgets/icon_widget.dart';
@@ -10,8 +12,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
-class login extends StatelessWidget {
-  login({super.key});
+class Login extends StatelessWidget {
+  Login({super.key});
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   final _auth = Auth();
@@ -26,7 +28,7 @@ class login extends StatelessWidget {
     return Scaffold(
         backgroundColor: kMainColor,
         body: ModalProgressHUD(
-          inAsyncCall: Provider.of<Modelhud>(context).isLoading,
+          inAsyncCall: Provider.of<ModelHud>(context).isLoading,
           child: Form(
             key: _globalKey,
             child: ListView(
@@ -54,23 +56,8 @@ class login extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.black),
                     child: TextButton(
-                      onPressed: () async {
-                        final modelhud =
-                            Provider.of<Modelhud>(context, listen: false);
-                        modelhud.changeisLoading(true);
-                        if (_globalKey.currentState!.validate()) {
-                          _globalKey.currentState!.save();
-
-                          try {
-                            final res = await _auth.signIn(_email, _password);
-                            print(res.toString());
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                duration: const Duration(seconds: 2),
-                                content: Text(e.toString())));
-                          }
-                        }
-                        modelhud.changeisLoading(false);
+                      onPressed: () {
+                        loginAction(context);
                       },
                       child: const Text(
                         style: TextStyle(color: Colors.white, fontSize: 15),
@@ -96,27 +83,26 @@ class login extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         final adminMode =
-                            Provider.of<Adminmode>(context, listen: false);
+                            Provider.of<AdminMode>(context, listen: false);
                         adminMode.changeStatu(true);
                       },
                       child: Text("I m a Admin",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Provider.of<Adminmode>(context).isAdmin
+                              color: Provider.of<AdminMode>(context).isAdmin
                                   ? kMainColor
                                   : Colors.white)),
                     ),
                     TextButton(
                       onPressed: () {
                         final adminMode =
-                            Provider.of<Adminmode>(context, listen: false);
+                            Provider.of<AdminMode>(context, listen: false);
                         adminMode.changeStatu(false);
-                        print(adminMode.isAdmin);
                       },
                       child: Text("I m a user",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Provider.of<Adminmode>(context).isAdmin
+                              color: Provider.of<AdminMode>(context).isAdmin
                                   ? Colors.white
                                   : kMainColor)),
                     ),
@@ -126,5 +112,42 @@ class login extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  void loginAction(BuildContext context) async {
+    final modelhud = Provider.of<ModelHud>(context, listen: false);
+    modelhud.changeisLoading(true);
+    if (_globalKey.currentState!.validate()) {
+      _globalKey.currentState!.save();
+
+      if (Provider.of<AdminMode>(context, listen: false).isAdmin) {
+        if (_password == "admin1234") {
+          try {
+            await _auth.signIn(_email, _password);
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (ctx) => Admin()));
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                duration: const Duration(seconds: 2),
+                content: Text(e.toString())));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text("some thing was wrong")));
+        }
+      } else {
+        try {
+          await _auth.signIn(_email, _password);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => Home()));
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              duration: const Duration(seconds: 2),
+              content: Text(e.toString())));
+        }
+      }
+    }
+    modelhud.changeisLoading(false);
   }
 }

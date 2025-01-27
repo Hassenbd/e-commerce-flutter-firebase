@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Adminmode extends ChangeNotifier{
+class AdminMode extends ChangeNotifier{
   bool isAdmin = false;
   changeStatu(value) {
     isAdmin = value;

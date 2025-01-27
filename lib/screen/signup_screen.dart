@@ -21,7 +21,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: kMainColor,
         body: ModalProgressHUD(
-          inAsyncCall: Provider.of<Modelhud>(context).isLoading,
+          inAsyncCall: Provider.of<ModelHud>(context).isLoading,
           child: Form(
             key: _globalKey,
             child: ListView(
@@ -56,12 +56,12 @@ class SignupScreen extends StatelessWidget {
                       return TextButton(
                         onPressed: () async {
                           final modelhud =
-                              Provider.of<Modelhud>(context, listen: false);
+                              Provider.of<ModelHud>(context, listen: false);
                           modelhud.changeisLoading(true);
                           if (_globalKey.currentState!.validate()) {
                             _globalKey.currentState!.save();
                             try {
-                              final res = await _auth.signUp(_email, _password);
+                              await _auth.signUp(_email, _password);
                             } catch (e) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
@@ -88,7 +88,7 @@ class SignupScreen extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (ctx) => login()));
+                            .push(MaterialPageRoute(builder: (ctx) => Login()));
                       },
                       child: const Text("Sign in"))
                 ])
