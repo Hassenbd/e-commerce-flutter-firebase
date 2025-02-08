@@ -1,9 +1,11 @@
+// ignore: file_names
 import 'package:e_commerce/constants.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/services/store.dart';
 import 'package:e_commerce/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable, use_key_in_widget_constructors
 class Addproduct extends StatelessWidget {
   late String _name, _price, _description, _category, _imageLocation;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

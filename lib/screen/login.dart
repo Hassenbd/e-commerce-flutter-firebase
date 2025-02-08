@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
-// ignore: camel_case_types
+// ignore: camel_case_types, must_be_immutable
 class Login extends StatelessWidget {
   Login({super.key});
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
@@ -124,9 +124,11 @@ class Login extends StatelessWidget {
         if (_password == "admin1234") {
           try {
             await _auth.signIn(_email, _password);
+            // ignore: use_build_context_synchronously
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (ctx) => Admin()));
           } catch (e) {
+            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 duration: const Duration(seconds: 2),
                 content: Text(e.toString())));
@@ -139,9 +141,11 @@ class Login extends StatelessWidget {
       } else {
         try {
           await _auth.signIn(_email, _password);
+          // ignore: use_build_context_synchronously
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => Home()));
         } catch (e) {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               duration: const Duration(seconds: 2),
               content: Text(e.toString())));

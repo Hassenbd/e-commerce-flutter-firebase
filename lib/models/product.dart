@@ -4,6 +4,11 @@ class Product {
   String location;
   String description;
   String category;
+  String pId = " ";
 
-  Product(this.name,this.category, this.price, this.location, this.description);
+  Product(
+      this.name, this.category, this.price, this.location, this.description);
+  void setId(id) {
+    pId = id;
+  }
 }

@@ -1,6 +1,6 @@
 import 'package:e_commerce/constants.dart';
 import 'package:e_commerce/screen/admin/addProduct.dart';
-import 'package:e_commerce/screen/admin/editProduct.dart';
+import 'package:e_commerce/screen/admin/listsProduct.dart';
 import 'package:flutter/material.dart';
 
 class Admin extends StatelessWidget {
@@ -19,7 +19,7 @@ class Admin extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => const EditProduct()));
+                    MaterialPageRoute(builder: (ctx) => const ListsProduct()));
               },
               child: const Text("Edit Product"),
             ),

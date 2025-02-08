@@ -1,7 +1,8 @@
 import 'package:e_commerce/firebase_options.dart';
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHud.dart';
-import 'package:e_commerce/screen/login.dart';
+import 'package:e_commerce/screen/home.dart';
+// import 'package:e_commerce/screen/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: Login(),
+          home: Home(),
         ));
   }
 }
